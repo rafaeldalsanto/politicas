@@ -1,3 +1,5 @@
+mod filtros;
+
 fn main() {
     println!("Hello, world!");
 }
@@ -10,6 +12,17 @@ struct Pedido {
 impl Pedido {
     fn total(&self) -> f64 {
         self.itens.iter().fold(0.0, |total, item| total + item.total())
+    };
+
+    fn adicionar_item<'a>(&'a self, quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
+        let item = ItemDePedido {
+            quantidade,
+            preco_tabela,
+            descontos_do_vendedor,
+            pedido: self,
+        };
+        self.itens.push(item);
+        item
     }
 }
 
@@ -17,6 +30,7 @@ struct ItemDePedido {
     quantidade: f64,
     preco_tabela: f64,
     descontos_do_vendedor: Vec<f64>,
+    pedido: Pedido,
 }
 
 impl ItemDePedido {
@@ -48,10 +62,12 @@ mod tests {
 
     #[test]
     fn test_total_do_item() {
+        let pedido = Pedido {itens: vec![]};
         let item = ItemDePedido {
             quantidade: 2.0,
             preco_tabela: 5.0,
-            descontos_do_vendedor: vec![10.0]
+            descontos_do_vendedor: vec![10.0],
+            pedido
         };
 
         assert_eq!(item.total(), 9.0);
