@@ -25,7 +25,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_total_do_pedido() {
+    fn calcula_o_total_do_pedido() {
         let item1 = ItemDePedido::new(2.0, 5.0, vec![10.0]);
         let item2 = ItemDePedido::new(4.0, 5.0, vec![10.0]);
         let pedido = Pedido::new();

@@ -22,7 +22,7 @@ mod tests {
     use crate::Pedido;
 
     #[test]
-    fn test_filtro_total_do_pedido() {
+    fn filtro_total_do_pedido() {
         let filtro = ValorDoPedido { minimo: 1.0, maximo: 10.0};
         let mut pedido = Pedido {itens: vec![]};
         let item1 = ItemDePedido {
