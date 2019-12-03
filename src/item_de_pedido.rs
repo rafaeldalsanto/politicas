@@ -6,6 +6,14 @@ struct ItemDePedido {
 }
 
 impl ItemDePedido {
+    fn new(quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
+        ItemDePedido {
+            quantidade,
+            preco_tabela,
+            descontos_do_vendedor,
+        }
+    }
+
     fn preco_liquido(&self) -> f64 {
         aplicar_descontos(self.preco_tabela, &self.descontos_do_vendedor)
     }
@@ -34,23 +42,14 @@ mod tests {
 
     #[test]
     fn calcula_o_total_do_item() {
-        let pedido = Pedido {itens: vec![]};
-        let item = ItemDePedido {
-            quantidade: 2.0,
-            preco_tabela: 5.0,
-            descontos_do_vendedor: vec![10.0],
-        };
+        let item = ItemDePedido::new(2.0, 5.0, vec![10.0]);
 
         assert_eq!(item.total(), 9.0);
     }
 
     #[test]
     fn calcula_o_preco_liquido() {
-        let item = ItemDePedido {
-            quantidade: 2.0,
-            preco_tabela: 5.0,
-            descontos_do_vendedor: vec![10.0]
-        };
+        let item = ItemDePedido::new(2.0, 5.0, vec![10.0]);
 
         assert_eq!(item.preco_liquido(), 4.5)
     }
