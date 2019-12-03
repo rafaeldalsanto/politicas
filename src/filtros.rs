@@ -1,7 +1,7 @@
-use crate::ItemDePedido;
+use crate::{Pedido, ItemDePedido};
 
 pub trait Filtro {
-    fn eh_satisfeito_por(&self, item: ItemDePedido) -> bool;
+    fn eh_satisfeito_por(&self, indice_do_item: u32, pedido: Pedido) -> bool;
 }
 
 pub struct ValorDoPedido {
@@ -10,8 +10,8 @@ pub struct ValorDoPedido {
 }
 
 impl Filtro for ValorDoPedido {
-    fn eh_satisfeito_por(&self, item: ItemDePedido) -> bool {
-        let total = item.pedido.total();
+    fn eh_satisfeito_por(&self, indice_do_item: u32, pedido: Pedido) -> bool {
+        let total = pedido.total();
         total >= self.minimo && total <= self.maximo
     }
 }
@@ -29,10 +29,9 @@ mod tests {
             quantidade: 2.0,
             preco_tabela: 5.0,
             descontos_do_vendedor: vec![10.0],
-            pedido
         };
         pedido.itens.push(item1);
 
-        assert!(filtro.eh_satisfeito_por(item1));
+        assert!(filtro.eh_satisfeito_por(0, pedido));
     }
 }
