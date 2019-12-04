@@ -24,9 +24,9 @@ mod tests {
     #[test]
     fn filtro_total_do_pedido() {
         let filtro = ValorDoPedido { minimo: 1.0, maximo: 10.0};
-        let mut pedido = Pedido {itens: vec![]};
+        let mut pedido = Pedido::new();
         let item1 = ItemDePedido::new(2.0, 5.0, vec![10.0]);
-        pedido.itens.push(item1);
+        pedido.adicionar_item(item1);
 
         assert!(filtro.eh_satisfeito_por(0, pedido));
     }

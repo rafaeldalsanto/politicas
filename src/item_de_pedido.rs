@@ -14,7 +14,7 @@ impl ItemDePedido {
         }
     }
 
-    fn preco_liquido(&self) -> f64 {
+    pub fn preco_liquido(&self) -> f64 {
         aplicar_descontos(self.preco_tabela, &self.descontos_do_vendedor)
     }
 

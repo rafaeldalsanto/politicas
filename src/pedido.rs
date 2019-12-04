@@ -5,7 +5,7 @@ pub struct Pedido {
 }
 
 impl Pedido {
-    fn new() -> Pedido {
+    pub fn new() -> Pedido {
         Pedido {
             itens: Vec::new(),
         }
@@ -15,7 +15,7 @@ impl Pedido {
         self.itens.iter().map(|item| item.total()).sum()
     }
 
-    fn adicionar_item(&mut self, item: ItemDePedido) {
+    pub fn adicionar_item(&mut self, item: ItemDePedido) {
         self.itens.push(item);
     }
 }
