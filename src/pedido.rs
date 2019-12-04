@@ -1,24 +1,25 @@
-pub mod pedido {
-    pub struct Pedido {
-        itens: Vec<ItemDePedido>,
+use crate::item_de_pedido::ItemDePedido;
+
+pub struct Pedido {
+    pub itens: Vec<ItemDePedido>,
+}
+
+impl Pedido {
+    fn new() -> Pedido {
+        Pedido {
+            itens: Vec::new(),
+        }
     }
 
-    impl Pedido {
-        fn new() -> Pedido {
-            Pedido {
-                itens: Vec::new(),
-            }
-        }
+    pub fn total(&self) -> f64 {
+        self.itens.iter().map(|item| item.total()).sum()
+    }
 
-        fn total(&self) -> f64 {
-            self.itens.iter().map(|item| item.total()).sum()
-        }
-
-        fn adicionar_item(&mut self, item: ItemDePedido) {
-            self.itens.push(item);
-        }
+    fn adicionar_item(&mut self, item: ItemDePedido) {
+        self.itens.push(item);
     }
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -28,7 +29,7 @@ mod tests {
     fn calcula_o_total_do_pedido() {
         let item1 = ItemDePedido::new(2.0, 5.0, vec![10.0]);
         let item2 = ItemDePedido::new(4.0, 5.0, vec![10.0]);
-        let pedido = Pedido::new();
+        let mut pedido = Pedido::new();
         pedido.adicionar_item(item1);
         pedido.adicionar_item(item2);
 

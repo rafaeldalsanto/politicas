@@ -1,4 +1,4 @@
-use crate::{Pedido, ItemDePedido};
+use crate::pedido::Pedido;
 
 pub trait Filtro {
     fn eh_satisfeito_por(&self, indice_do_item: u32, pedido: Pedido) -> bool;
@@ -19,17 +19,13 @@ impl Filtro for ValorDoPedido {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Pedido;
+    use crate::item_de_pedido::ItemDePedido;
 
     #[test]
     fn filtro_total_do_pedido() {
         let filtro = ValorDoPedido { minimo: 1.0, maximo: 10.0};
         let mut pedido = Pedido {itens: vec![]};
-        let item1 = ItemDePedido {
-            quantidade: 2.0,
-            preco_tabela: 5.0,
-            descontos_do_vendedor: vec![10.0],
-        };
+        let item1 = ItemDePedido::new(2.0, 5.0, vec![10.0]);
         pedido.itens.push(item1);
 
         assert!(filtro.eh_satisfeito_por(0, pedido));

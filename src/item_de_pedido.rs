@@ -1,12 +1,12 @@
 
-struct ItemDePedido {
+pub struct ItemDePedido {
     quantidade: f64,
     preco_tabela: f64,
     descontos_do_vendedor: Vec<f64>,
 }
 
 impl ItemDePedido {
-    fn new(quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
+    pub fn new(quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
         ItemDePedido {
             quantidade,
             preco_tabela,
@@ -18,7 +18,7 @@ impl ItemDePedido {
         aplicar_descontos(self.preco_tabela, &self.descontos_do_vendedor)
     }
 
-    fn total(&self) -> f64 {
+    pub fn total(&self) -> f64 {
         self.quantidade * self.preco_liquido()
     }
 }
