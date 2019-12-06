@@ -1,19 +1,17 @@
 use crate::pedido::Pedido;
 use crate::filtros::intervalo::Intervalo;
-
-pub trait Filtro {
-    fn eh_satisfeito_por(&self, indice_do_item: u32, pedido: Pedido) -> bool;
-}
+use crate::filtros::traits::Filtro;
 
 pub struct ValorDoPedido {
     intervalo: Intervalo,
 }
 
 impl Filtro for ValorDoPedido {
-    fn eh_satisfeito_por(&self, indice_do_item: u32, pedido: Pedido) -> bool {
+    fn eh_satisfeito_por(&self, _: u32, pedido: Pedido) -> bool {
         self.intervalo.contem(pedido.total())
     }
 }
+
 
 #[cfg(test)]
 mod tests {
