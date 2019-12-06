@@ -35,24 +35,19 @@ mod tests {
 
     #[test]
     fn aplica_descontos() {
-        let descontos = vec![10.0, 5.0];
-
-        let resultado = aplicar_descontos(100.0, &descontos);
-
+        let resultado = aplicar_descontos(100.0, &vec![10.0, 5.0]);
         assert_eq!(resultado, 85.5);
     }
 
     #[test]
-    fn calcula_o_total_do_item() {
-        let item = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
-
-        assert_eq!(item.total(), 9.0);
+    fn calcula_o_preco_liquido() {
+        let item = ItemDePedido::new(1, 2.0, 5.0, vec![10.0]);
+        assert_eq!(item.preco_liquido(), 4.5)
     }
 
     #[test]
-    fn calcula_o_preco_liquido() {
-        let item = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
-
-        assert_eq!(item.preco_liquido(), 4.5)
+    fn calcula_o_total_do_item() {
+        let item = ItemDePedido::new(1, 2.0, 5.0, vec![10.0]);
+        assert_eq!(item.total(), 9.0);
     }
 }

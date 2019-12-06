@@ -32,7 +32,6 @@ mod tests {
         let mut pedido = Pedido::new();
         pedido.adicionar_item(item1);
         pedido.adicionar_item(item2);
-        println!("{}", pedido.itens[0].preco_liquido());
 
         assert_eq!(pedido.total(), 27.0);
     }
