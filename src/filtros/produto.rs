@@ -1,10 +1,10 @@
 use std::collections::HashSet;
-use crate::filtros::traits::Filtro;
+use crate::filtros::Filtro;
 use crate::pedido::Pedido;
 use crate::item_de_pedido::ItemDePedido;
 
 pub struct Produto {
-    ids: HashSet<u32>
+    ids: HashSet<u32>,
 }
 
 impl Filtro for Produto {
