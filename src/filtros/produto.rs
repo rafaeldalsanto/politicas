@@ -9,8 +9,7 @@ pub struct Produto {
 
 impl Filtro for Produto {
     fn eh_satisfeito_por(&self, indice: usize, pedido: &Pedido) -> bool {
-        let item: &ItemDePedido = pedido.itens.get(indice).unwrap();
-        self.ids.contains(&item.produto_id)
+        self.ids.contains(&(pedido.itens)[indice].produto_id)
     }
 }
 
