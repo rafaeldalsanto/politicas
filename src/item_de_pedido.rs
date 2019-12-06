@@ -1,13 +1,15 @@
 
 pub struct ItemDePedido {
-    quantidade: f64,
-    preco_tabela: f64,
-    descontos_do_vendedor: Vec<f64>,
+    pub produto_id: u32,
+    pub quantidade: f64,
+    pub preco_tabela: f64,
+    pub descontos_do_vendedor: Vec<f64>,
 }
 
 impl ItemDePedido {
-    pub fn new(quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
+    pub fn new(produto_id: u32, quantidade: f64, preco_tabela: f64, descontos_do_vendedor: Vec<f64>) -> ItemDePedido {
         ItemDePedido {
+            produto_id,
             quantidade,
             preco_tabela,
             descontos_do_vendedor,
@@ -42,14 +44,14 @@ mod tests {
 
     #[test]
     fn calcula_o_total_do_item() {
-        let item = ItemDePedido::new(2.0, 5.0, vec![10.0]);
+        let item = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
 
         assert_eq!(item.total(), 9.0);
     }
 
     #[test]
     fn calcula_o_preco_liquido() {
-        let item = ItemDePedido::new(2.0, 5.0, vec![10.0]);
+        let item = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
 
         assert_eq!(item.preco_liquido(), 4.5)
     }

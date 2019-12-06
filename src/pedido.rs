@@ -27,11 +27,12 @@ mod tests {
 
     #[test]
     fn calcula_o_total_do_pedido() {
-        let item1 = ItemDePedido::new(2.0, 5.0, vec![10.0]);
-        let item2 = ItemDePedido::new(4.0, 5.0, vec![10.0]);
+        let item1 = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
+        let item2 = ItemDePedido::new(1,4.0, 5.0, vec![10.0]);
         let mut pedido = Pedido::new();
         pedido.adicionar_item(item1);
         pedido.adicionar_item(item2);
+        println!("{}", pedido.itens[0].preco_liquido());
 
         assert_eq!(pedido.total(), 27.0);
     }
