@@ -4,7 +4,7 @@ use crate::pedido::Pedido;
 use crate::item_de_pedido::ItemDePedido;
 
 pub struct Produto {
-    ids: HashSet<u32>,
+    pub ids: HashSet<u32>,
 }
 
 impl Filtro for Produto {

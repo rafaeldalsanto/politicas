@@ -3,7 +3,7 @@ use crate::filtros::intervalo::Intervalo;
 use crate::filtros::Filtro;
 
 pub struct ValorDoPedido {
-    intervalo: Intervalo,
+    pub intervalo: Intervalo,
 }
 
 impl Filtro for ValorDoPedido {
