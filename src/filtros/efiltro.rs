@@ -7,9 +7,9 @@ pub struct EFiltro {
 }
 
 impl Filtro for EFiltro {
-    fn eh_satisfeito_por(&self, indice: usize, pedido: &Pedido) -> bool {
-        self.esquerda.eh_satisfeito_por(indice, pedido) &&
-            self.direita.eh_satisfeito_por(indice, pedido)
+    fn avaliar(&self, indice: usize, pedido: &Pedido) -> bool {
+        self.esquerda.avaliar(indice, pedido) &&
+            self.direita.avaliar(indice, pedido)
     }
 }
 
@@ -33,7 +33,7 @@ mod tests {
         let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(efiltro.eh_satisfeito_por(0, &pedido));
+        assert!(efiltro.avaliar(0, &pedido));
     }
 
     #[test]
@@ -46,7 +46,7 @@ mod tests {
         let item1 = ItemDePedido::new(99,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(!efiltro.eh_satisfeito_por(0, &pedido));
+        assert!(!efiltro.avaliar(0, &pedido));
     }
 
     #[test]
@@ -59,7 +59,7 @@ mod tests {
         let item1 = ItemDePedido::new(99,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(!efiltro.eh_satisfeito_por(0, &pedido));
+        assert!(!efiltro.avaliar(0, &pedido));
     }
 
     #[test]
@@ -72,6 +72,6 @@ mod tests {
         let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(!efiltro.eh_satisfeito_por(0, &pedido));
+        assert!(!efiltro.avaliar(0, &pedido));
     }
 }

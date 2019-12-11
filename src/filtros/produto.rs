@@ -7,7 +7,7 @@ pub struct Produto {
 }
 
 impl Filtro for Produto {
-    fn eh_satisfeito_por(&self, indice: usize, pedido: &Pedido) -> bool {
+    fn avaliar(&self, indice: usize, pedido: &Pedido) -> bool {
         self.ids.contains(&(pedido.itens)[indice].produto_id)
     }
 }
@@ -25,7 +25,7 @@ mod tests {
         let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(filtro.eh_satisfeito_por(0, &pedido));
+        assert!(filtro.avaliar(0, &pedido));
     }
 
     #[test]
@@ -36,6 +36,6 @@ mod tests {
         let item1 = ItemDePedido::new(4,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(!filtro.eh_satisfeito_por(0, &pedido));
+        assert!(!filtro.avaliar(0, &pedido));
     }
 }

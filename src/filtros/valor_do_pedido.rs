@@ -7,11 +7,10 @@ pub struct ValorDoPedido {
 }
 
 impl Filtro for ValorDoPedido {
-    fn eh_satisfeito_por(&self, _: usize, pedido: &Pedido) -> bool {
+    fn avaliar(&self, _: usize, pedido: &Pedido) -> bool {
         self.intervalo.contem(pedido.total())
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -27,7 +26,7 @@ mod tests {
         let item1 = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(filtro.eh_satisfeito_por(0, &pedido));
+        assert!(filtro.avaliar(0, &pedido));
     }
 
     #[test]
@@ -38,6 +37,6 @@ mod tests {
         let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
         pedido.adicionar_item(item1);
 
-        assert!(!filtro.eh_satisfeito_por(0, &pedido));
+        assert!(!filtro.avaliar(0, &pedido));
     }
 }
