@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 use crate::filtros::Filtro;
 use crate::pedido::Pedido;
-use crate::item_de_pedido::ItemDePedido;
 
 pub struct Produto {
     pub ids: HashSet<u32>,
@@ -17,11 +16,10 @@ impl Filtro for Produto {
 mod tests {
     use super::*;
     use crate::item_de_pedido::ItemDePedido;
-    use crate::filtros::intervalo::Intervalo;
 
     #[test]
     fn eh_satisfeito_quando_o_id_do_produto_existe() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro = Produto { ids };
         let mut pedido = Pedido::new();
         let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
@@ -32,7 +30,7 @@ mod tests {
 
     #[test]
     fn nao_eh_satisfeito_quando_o_id_do_produto_nao_existe() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro = Produto { ids };
         let mut pedido = Pedido::new();
         let item1 = ItemDePedido::new(4,3.0, 5.0, vec![10.0]);

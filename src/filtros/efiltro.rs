@@ -25,7 +25,7 @@ mod tests {
 
     #[test]
     fn eh_satisfeito_quando_os_dois_filtros_sao_satisfeitos() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro_esquerda = Produto { ids };
         let filtro_direita = ValorDoPedido {intervalo: Intervalo {minimo: Some(0.0), maximo: Some(20.0)}};
         let efiltro = EFiltro { esquerda: Box::new(filtro_esquerda), direita: Box::new(filtro_direita) };
@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn nao_eh_satisfeito_quando_os_dois_filtros_nao_sao_satisfeitos() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro_esquerda = Produto { ids };
         let filtro_direita = ValorDoPedido {intervalo: Intervalo {minimo: Some(0.0), maximo: Some(5.0)}};
         let efiltro = EFiltro { esquerda: Box::new(filtro_esquerda), direita: Box::new(filtro_direita) };
@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn nao_eh_satisfeito_quando_o_filtro_esquerda_nao_eh_satisfeito() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro_esquerda = Produto { ids };
         let filtro_direita = ValorDoPedido {intervalo: Intervalo {minimo: Some(0.0), maximo: Some(20.0)}};
         let efiltro = EFiltro { esquerda: Box::new(filtro_esquerda), direita: Box::new(filtro_direita) };
@@ -64,7 +64,7 @@ mod tests {
 
     #[test]
     fn nao_eh_satisfeito_quando_o_filtro_direita_nao_eh_satisfeito() {
-        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();;
+        let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro_esquerda = Produto { ids };
         let filtro_direita = ValorDoPedido {intervalo: Intervalo {minimo: Some(0.0), maximo: Some(10.0)}};
         let efiltro = EFiltro { esquerda: Box::new(filtro_esquerda), direita: Box::new(filtro_direita) };
