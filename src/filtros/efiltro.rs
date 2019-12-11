@@ -8,8 +8,7 @@ pub struct EFiltro {
 
 impl Filtro for EFiltro {
     fn avaliar(&self, indice: usize, pedido: &Pedido) -> bool {
-        self.esquerda.avaliar(indice, pedido) &&
-            self.direita.avaliar(indice, pedido)
+        self.esquerda.avaliar(indice, pedido) && self.direita.avaliar(indice, pedido)
     }
 }
 
