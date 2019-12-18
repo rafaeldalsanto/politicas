@@ -21,7 +21,9 @@ impl ItemDePedido {
     }
 
     pub fn preco_liquido(&self) -> f64 {
-        aplicar_descontos(self.preco_tabela, &self.descontos_do_vendedor)
+        let mut descontos = self.descontos_do_vendedor.clone();
+        descontos.extend(self.descontos_de_politicas());
+        aplicar_descontos(self.preco_tabela, &descontos)
     }
 
     pub fn descontos_de_politicas(&self) -> Vec<f64> {
@@ -49,8 +51,10 @@ mod tests {
 
     #[test]
     fn calcula_o_preco_liquido() {
-        let item = ItemDePedido::new(1, 2.0, 5.0, vec![10.0]);
-        assert_eq!(item.preco_liquido(), 4.5)
+        let mut item = ItemDePedido::new(1, 2.0, 5.0, vec![10.0]);
+        item.politicas.push(RegraItemPedido {regra_id: 10, item_id: 100, desconto: 10.0});
+        item.politicas.push(RegraItemPedido {regra_id: 11, item_id: 100, desconto: 5.0});
+        assert_eq!(item.preco_liquido(), 3.8474999999999997)
     }
 
     #[test]
