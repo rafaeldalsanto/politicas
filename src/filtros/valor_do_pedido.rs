@@ -2,6 +2,7 @@ use crate::pedido::Pedido;
 use crate::filtros::intervalo::Intervalo;
 use crate::filtros::Filtro;
 
+#[derive(Copy, Clone)]
 pub struct ValorDoPedido {
     pub intervalo: Intervalo,
 }

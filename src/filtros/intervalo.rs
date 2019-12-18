@@ -1,4 +1,5 @@
 
+#[derive(Copy, Clone)]
 pub struct Intervalo {
     pub minimo: Option<f64>,
     pub maximo: Option<f64>,

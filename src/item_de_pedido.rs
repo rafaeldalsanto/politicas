@@ -1,9 +1,12 @@
+use crate::politica::RegraItemPedido;
 
+#[derive(Clone)]
 pub struct ItemDePedido {
     pub produto_id: u32,
     pub quantidade: f64,
     pub preco_tabela: f64,
     pub descontos_do_vendedor: Vec<f64>,
+    pub politicas: Vec<RegraItemPedido>,
 }
 
 impl ItemDePedido {
@@ -13,11 +16,16 @@ impl ItemDePedido {
             quantidade,
             preco_tabela,
             descontos_do_vendedor,
+            politicas: Vec::new(),
         }
     }
 
     pub fn preco_liquido(&self) -> f64 {
         aplicar_descontos(self.preco_tabela, &self.descontos_do_vendedor)
+    }
+
+    pub fn descontos_de_politicas(&self) -> Vec<f64> {
+        self.politicas.iter().map(|p| p.desconto).collect()
     }
 
     pub fn total(&self) -> f64 {
@@ -49,5 +57,13 @@ mod tests {
     fn calcula_o_total_do_item() {
         let item = ItemDePedido::new(1, 2.0, 5.0, vec![10.0]);
         assert_eq!(item.total(), 9.0);
+    }
+
+    #[test]
+    fn retorna_os_descontos_de_politicas() {
+        let mut item = ItemDePedido::new(1, 2.0, 5.0, vec![]);
+        item.politicas.push(RegraItemPedido {regra_id: 10, item_id: 100, desconto: 5.5});
+        item.politicas.push(RegraItemPedido {regra_id: 11, item_id: 100, desconto: 10.0});
+        assert_eq!(item.descontos_de_politicas(), vec![5.5, 10.0]);
     }
 }
