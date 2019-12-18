@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use crate::filtros::Filtro;
 use crate::pedido::Pedido;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Produto {
     pub ids: HashSet<u32>,
 }

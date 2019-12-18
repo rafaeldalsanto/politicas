@@ -1,6 +1,6 @@
 use crate::politica::RegraItemPedido;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct ItemDePedido {
     pub produto_id: u32,
     pub quantidade: f64,

@@ -4,8 +4,9 @@ mod produto;
 mod valor_do_pedido;
 
 use crate::pedido::Pedido;
+use std::fmt::{Debug, Formatter, Result};
 
-pub trait Filtro: FiltroClone {
+pub trait Filtro: FiltroClone + FiltroDebug {
     fn avaliar(&self, indice: usize, pedido: &Pedido) -> bool;
 }
 
@@ -24,5 +25,23 @@ impl<T> FiltroClone for T
 impl Clone for Box<dyn Filtro> {
     fn clone(&self) -> Box<dyn Filtro> {
         self.clone_box()
+    }
+}
+
+trait FiltroDebug {
+    fn debug_box(&self, f: &mut Formatter<'_>) -> Result;
+}
+
+impl<T> FiltroDebug for T
+    where T: 'static + Filtro + Debug
+{
+    fn debug_box(&self, f: &mut Formatter<'_>) -> Result {
+        self.fmt(f)
+    }
+}
+
+impl Debug for Box<dyn Filtro> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        self.debug_box(f)
     }
 }

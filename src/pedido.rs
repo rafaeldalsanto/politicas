@@ -1,6 +1,6 @@
 use crate::item_de_pedido::ItemDePedido;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, Default)]
 pub struct Pedido {
     pub itens: Vec<ItemDePedido>,
 }

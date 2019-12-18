@@ -1,7 +1,7 @@
 use crate::filtros::Filtro;
 use crate::pedido::Pedido;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct EFiltro {
     esquerda: Box<dyn Filtro>,
     direita: Box<dyn Filtro>,
