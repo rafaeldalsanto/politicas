@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn calcula_o_preco_liquido() {
-        let mut item = ItemDePedido {
+        let item = ItemDePedido {
             preco_de_tabela: 5.0,
             descontos_do_vendedor: vec![1.0, 2.0],
             promocoes: vec![
@@ -70,7 +70,7 @@ mod tests {
 
     #[test]
     fn calcula_o_total_do_item() {
-        let mut item = ItemDePedido {
+        let item = ItemDePedido {
             quantidade: 2.0,
             preco_de_tabela: 5.0,
             descontos_do_vendedor: vec![1.0, 2.0],
@@ -90,7 +90,7 @@ mod tests {
 
     #[test]
     fn retorna_os_descontos_de_promocoes() {
-        let mut item = ItemDePedido {
+        let item = ItemDePedido {
             promocoes: vec![
                 RegraItemPedido { desconto: 5.5, ..Default::default() },
                 RegraItemPedido { desconto: 10.0, ..Default::default() },
@@ -103,7 +103,7 @@ mod tests {
 
     #[test]
     fn retorna_os_descontos_de_politicas() {
-        let mut item = ItemDePedido {
+        let item = ItemDePedido {
             politicas: vec![
                 RegraItemPedido { desconto: 5.5, ..Default::default() },
                 RegraItemPedido { desconto: 10.0, ..Default::default() },

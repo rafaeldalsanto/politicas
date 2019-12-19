@@ -10,7 +10,7 @@ pub trait Filtro: FiltroClone + FiltroDebug {
     fn avaliar(&self, indice: usize, pedido: &Pedido) -> bool;
 }
 
-trait FiltroClone {
+pub trait FiltroClone {
     fn clone_box(&self) -> Box<dyn Filtro>;
 }
 
@@ -28,7 +28,7 @@ impl Clone for Box<dyn Filtro> {
     }
 }
 
-trait FiltroDebug {
+pub trait FiltroDebug {
     fn debug_box(&self, f: &mut Formatter<'_>) -> Result;
 }
 

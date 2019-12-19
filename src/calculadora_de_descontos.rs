@@ -1,14 +1,14 @@
-use crate::politica::Politica;
-use crate::pedido::Pedido;
-use std::collections::HashMap;
+//use crate::politica::Politica;
+//use crate::pedido::Pedido;
+//use std::collections::HashMap;
 
-pub fn processar_politicas(politicas: Vec<Politica>, pedido: Pedido) -> Pedido {
-    if politicas.is_empty() {
-        return pedido
-    }
-
-    pedido
-}
+//pub fn processar_politicas(politicas: Vec<Politica>, pedido: Pedido) -> Pedido {
+//    if politicas.is_empty() {
+//        return pedido
+//    }
+//
+//    pedido
+//}
 
 //fn remover_descontos_de_politicas_existentes(pedido: &Pedido) -> (Pedido, HashMap<(u32, u32), f64>) {
 //    let mut descontos_antigos: HashMap<(u32, u32), f64> = HashMap::new();
