@@ -23,8 +23,7 @@ mod tests {
         let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro = Produto { ids };
         let mut pedido = Pedido::new();
-        let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
-        pedido.adicionar_item(item1);
+        pedido.adicionar_item(ItemDePedido { produto_id: 1, ..Default::default() });
 
         assert!(filtro.avaliar(0, &pedido));
     }
@@ -34,8 +33,7 @@ mod tests {
         let ids: HashSet<u32> = [1, 2, 3].iter().cloned().collect();
         let filtro = Produto { ids };
         let mut pedido = Pedido::new();
-        let item1 = ItemDePedido::new(4,3.0, 5.0, vec![10.0]);
-        pedido.adicionar_item(item1);
+        pedido.adicionar_item(ItemDePedido { produto_id: 4, ..Default::default() });
 
         assert!(!filtro.avaliar(0, &pedido));
     }

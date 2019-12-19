@@ -24,8 +24,11 @@ mod tests {
         let intervalo = Intervalo { minimo: Some(1.0), maximo: Some(10.0) };
         let filtro = ValorDoPedido { intervalo };
         let mut pedido = Pedido::new();
-        let item1 = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
-        pedido.adicionar_item(item1);
+        pedido.adicionar_item(ItemDePedido {
+            quantidade: 2.0,
+            preco_de_tabela: 4.0,
+            ..Default::default()
+        });
 
         assert!(filtro.avaliar(0, &pedido));
     }
@@ -35,8 +38,11 @@ mod tests {
         let intervalo = Intervalo { minimo: Some(1.0), maximo: Some(10.0) };
         let filtro = ValorDoPedido { intervalo };
         let mut pedido = Pedido::new();
-        let item1 = ItemDePedido::new(1,3.0, 5.0, vec![10.0]);
-        pedido.adicionar_item(item1);
+        pedido.adicionar_item(ItemDePedido {
+            quantidade: 3.0,
+            preco_de_tabela: 5.0,
+            ..Default::default()
+        });
 
         assert!(!filtro.avaliar(0, &pedido));
     }

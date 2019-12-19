@@ -1,4 +1,3 @@
-
 #[derive(Copy, Clone, Debug, Default)]
 pub struct Intervalo {
     pub minimo: Option<f64>,

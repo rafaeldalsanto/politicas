@@ -25,15 +25,26 @@ impl Pedido {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::item_de_pedido::ItemDePedido;
+    use crate::politica::RegraItemPedido;
 
     #[test]
     fn calcula_o_total_do_pedido() {
-        let item1 = ItemDePedido::new(1,2.0, 5.0, vec![10.0]);
-        let item2 = ItemDePedido::new(1,4.0, 5.0, vec![10.0]);
         let mut pedido = Pedido::new();
-        pedido.adicionar_item(item1);
-        pedido.adicionar_item(item2);
+        pedido.adicionar_item(ItemDePedido {
+            quantidade: 2.0,
+            preco_de_tabela: 5.0,
+            descontos_do_vendedor: vec![2.0],
+            promocoes: vec![RegraItemPedido { desconto: 3.0, ..Default::default() }],
+            ..Default::default()
+        });
+        pedido.adicionar_item(ItemDePedido {
+            quantidade: 4.0,
+            preco_de_tabela: 5.0,
+            politicas: vec![RegraItemPedido { desconto: 5.0, ..Default::default() }],
+            ..Default::default()
+        });
 
-        assert_eq!(pedido.total(), 27.0);
+        assert_eq!(pedido.total(), 28.506);
     }
 }

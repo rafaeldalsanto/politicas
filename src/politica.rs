@@ -15,7 +15,7 @@ pub struct Regra {
     pub desconto_sugerido: f64,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Default)]
 pub struct RegraItemPedido {
     pub regra_id: u32,
     pub item_id: u32,
