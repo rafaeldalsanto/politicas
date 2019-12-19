@@ -1,12 +1,12 @@
 use crate::filtros::Filtro;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Politica {
     pub nome: String,
     pub regras: Vec<Regra>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Regra {
     pub editavel: bool,
     pub aplicavel_a_promocoes: bool,

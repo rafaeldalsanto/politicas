@@ -45,3 +45,18 @@ impl Debug for Box<dyn Filtro> {
         self.debug_box(f)
     }
 }
+
+impl Default for Box<dyn Filtro> {
+    fn default() -> Self {
+        Box::new(FiltroFalso {})
+    }
+}
+
+#[derive(Copy, Clone, Debug, Default)]
+struct FiltroFalso {}
+
+impl Filtro for FiltroFalso {
+    fn avaliar(&self, _: usize, _: &Pedido) -> bool {
+        false
+    }
+}
