@@ -28,24 +28,25 @@ mod tests {
     use super::*;
     use crate::item_de_pedido::ItemDePedido;
     use crate::politica::RegraItemPedido;
+    use rust_decimal_macros::*;
 
     #[test]
     fn calcula_o_total_do_pedido() {
         let mut pedido = Pedido::new();
         pedido.adicionar_item(ItemDePedido {
-            quantidade: Decimal::new(2, 0),
-            preco_de_tabela: Decimal::new(5, 0),
-            descontos_do_vendedor: vec![Decimal::new(2, 0)],
-            promocoes: vec![RegraItemPedido { desconto: Decimal::new(3, 0), ..Default::default() }],
+            quantidade: dec!(2),
+            preco_de_tabela: dec!(5),
+            descontos_do_vendedor: vec![dec!(2)],
+            promocoes: vec![RegraItemPedido { desconto: dec!(3), ..Default::default() }],
             ..Default::default()
         });
         pedido.adicionar_item(ItemDePedido {
-            quantidade: Decimal::new(4, 0),
-            preco_de_tabela: Decimal::new(5, 0),
-            politicas: vec![RegraItemPedido { desconto: Decimal::new(5, 0), ..Default::default() }],
+            quantidade: dec!(4),
+            preco_de_tabela: dec!(5),
+            politicas: vec![RegraItemPedido { desconto: dec!(5), ..Default::default() }],
             ..Default::default()
         });
 
-        assert_eq!(pedido.total(), Decimal::new(28506, 3));
+        assert_eq!(pedido.total(), dec!(28.506));
     }
 }

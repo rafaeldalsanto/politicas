@@ -1,5 +1,6 @@
 use crate::politica::RegraItemPedido;
 use rust_decimal::Decimal;
+use rust_decimal_macros::*;
 
 #[derive(Clone, Debug, Default)]
 pub struct ItemDePedido {
@@ -35,8 +36,8 @@ impl ItemDePedido {
 }
 
 fn aplicar_descontos(valor: Decimal, descontos: &Vec<Decimal>) -> Decimal {
-    let um = Decimal::new(1, 0);
-    let cem = Decimal::new(100, 0);
+    let um = dec!(1);
+    let cem = dec!(100);
     descontos.iter().fold(valor, |desc_total, desc| desc_total * (um - desc / &cem))
 }
 
@@ -48,75 +49,75 @@ mod tests {
     #[test]
     fn aplica_descontos() {
         let resultado = aplicar_descontos(
-            Decimal::new(100, 0),
-            &vec![Decimal::new(10, 0), Decimal::new(5, 0)]
+            dec!(100),
+            &vec![dec!(10), dec!(5)]
         );
 
-        assert_eq!(resultado, Decimal::new(855, 1));
+        assert_eq!(resultado, dec!(85.5));
     }
 
     #[test]
     fn calcula_o_preco_liquido() {
         let item = ItemDePedido {
-            preco_de_tabela: Decimal::new(5, 0),
-            descontos_do_vendedor: vec![Decimal::new(1, 0), Decimal::new(2, 0)],
+            preco_de_tabela: dec!(5),
+            descontos_do_vendedor: vec![dec!(1), dec!(2)],
             promocoes: vec![
-                RegraItemPedido { desconto: Decimal::new(3, 0), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(4, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(3), ..Default::default() },
+                RegraItemPedido { desconto: dec!(4), ..Default::default() },
             ],
             politicas: vec![
-                RegraItemPedido { desconto: Decimal::new(5, 0), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(6, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(5), ..Default::default() },
+                RegraItemPedido { desconto: dec!(6), ..Default::default() },
             ],
             ..Default::default()
         };
 
-        assert_eq!(item.preco_liquido(), Decimal::new(40339053216, 10));
+        assert_eq!(item.preco_liquido(), dec!(4.0339053216));
     }
 
     #[test]
     fn calcula_o_total_do_item() {
         let item = ItemDePedido {
-            quantidade: Decimal::new(2, 0),
-            preco_de_tabela: Decimal::new(5, 0),
-            descontos_do_vendedor: vec![Decimal::new(1, 0), Decimal::new(2, 0)],
+            quantidade: dec!(2),
+            preco_de_tabela: dec!(5),
+            descontos_do_vendedor: vec![dec!(1), dec!(2)],
             promocoes: vec![
-                RegraItemPedido { desconto: Decimal::new(3, 0), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(4, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(3), ..Default::default() },
+                RegraItemPedido { desconto: dec!(4), ..Default::default() },
             ],
             politicas: vec![
-                RegraItemPedido { desconto: Decimal::new(5, 0), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(6, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(5), ..Default::default() },
+                RegraItemPedido { desconto: dec!(6), ..Default::default() },
             ],
             ..Default::default()
         };
 
-        assert_eq!(item.total(), Decimal::new(80678106432, 10));
+        assert_eq!(item.total(), dec!(8.0678106432));
     }
 
     #[test]
     fn retorna_os_descontos_de_promocoes() {
         let item = ItemDePedido {
             promocoes: vec![
-                RegraItemPedido { desconto: Decimal::new(55, 1), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(10, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(5.5), ..Default::default() },
+                RegraItemPedido { desconto: dec!(10), ..Default::default() },
             ],
             ..Default::default()
         };
 
-        assert_eq!(item.descontos_de_promocoes(), vec![Decimal::new(55, 1), Decimal::new(10, 0)]);
+        assert_eq!(item.descontos_de_promocoes(), vec![dec!(5.5), dec!(10)]);
     }
 
     #[test]
     fn retorna_os_descontos_de_politicas() {
         let item = ItemDePedido {
             politicas: vec![
-                RegraItemPedido { desconto: Decimal::new(55, 1), ..Default::default() },
-                RegraItemPedido { desconto: Decimal::new(10, 0), ..Default::default() },
+                RegraItemPedido { desconto: dec!(5.5), ..Default::default() },
+                RegraItemPedido { desconto: dec!(10), ..Default::default() },
             ],
             ..Default::default()
         };
 
-        assert_eq!(item.descontos_de_politicas(), vec![Decimal::new(55, 1), Decimal::new(10, 0)]);
+        assert_eq!(item.descontos_de_politicas(), vec![dec!(5.5), dec!(10)]);
     }
 }

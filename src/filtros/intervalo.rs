@@ -23,34 +23,35 @@ impl Intervalo {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rust_decimal_macros::*;
 
     #[test]
     fn contem_quando_o_valor_esta_entre_o_minimo_e_o_maximo() {
-        let intervalo = Intervalo { minimo: Some(Decimal::new(1, 0)), maximo: Some(Decimal::new(10, 0)) };
-        assert!(intervalo.contem(Decimal::new(5, 0)));
+        let intervalo = Intervalo { minimo: Some(dec!(1)), maximo: Some(dec!(10)) };
+        assert!(intervalo.contem(dec!(5)));
     }
 
     #[test]
     fn contem_quando_o_valor_eh_menor_que_o_maximo() {
-        let intervalo = Intervalo { minimo: None, maximo: Some(Decimal::new(10, 0)) };
-        assert!(intervalo.contem(Decimal::new(5, 0)));
+        let intervalo = Intervalo { minimo: None, maximo: Some(dec!(10)) };
+        assert!(intervalo.contem(dec!(5)));
     }
 
     #[test]
     fn contem_quando_o_valor_eh_maior_que_o_minimo() {
-        let intervalo = Intervalo { minimo: Some(Decimal::new(1, 0)), maximo: None };
-        assert!(intervalo.contem(Decimal::new(5, 0)));
+        let intervalo = Intervalo { minimo: Some(dec!(1)), maximo: None };
+        assert!(intervalo.contem(dec!(5)));
     }
 
     #[test]
     fn nao_contem_quando_o_valor_eh_maior_que_o_maximo() {
-        let intervalo = Intervalo { minimo: None, maximo: Some(Decimal::new(5, 0)) };
-        assert!(!intervalo.contem(Decimal::new(10, 0)));
+        let intervalo = Intervalo { minimo: None, maximo: Some(dec!(5)) };
+        assert!(!intervalo.contem(dec!(10)));
     }
 
     #[test]
     fn nao_contem_quando_o_valor_eh_menor_que_o_minimo() {
-        let intervalo = Intervalo { minimo: Some(Decimal::new(15, 0)), maximo: None };
-        assert!(!intervalo.contem(Decimal::new(10, 0)));
+        let intervalo = Intervalo { minimo: Some(dec!(15)), maximo: None };
+        assert!(!intervalo.contem(dec!(10)));
     }
 }
