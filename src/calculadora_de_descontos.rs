@@ -28,6 +28,7 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
 mod test {
     use super::*;
     use crate::item_de_pedido::ItemDePedido;
+    use rust_decimal::Decimal;
 
     #[test]
     fn retorna_o_pedido_original_se_nao_existem_politicas() {
@@ -36,8 +37,8 @@ mod test {
                 ItemDePedido {
                     id: 1,
                     produto_id: 2,
-                    quantidade: 3.0,
-                    preco_de_tabela: 4.0,
+                    quantidade: Decimal::new(3, 0),
+                    preco_de_tabela: Decimal::new(4, 0),
                     ..Default::default()
                 }
             ]
