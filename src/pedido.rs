@@ -1,7 +1,7 @@
 use crate::item_de_pedido::ItemDePedido;
 use rust_decimal::Decimal;
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct Pedido {
     pub itens: Vec<ItemDePedido>,
 }

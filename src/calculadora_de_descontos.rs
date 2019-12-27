@@ -46,6 +46,6 @@ mod test {
 
         let novo_pedido = processar_politicas(&Vec::new(), &pedido_original);
 
-        assert_eq!(pedido_original.total(), novo_pedido.total());
+        assert_eq!(pedido_original, novo_pedido);
     }
 }

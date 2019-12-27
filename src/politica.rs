@@ -16,7 +16,7 @@ pub struct Regra {
     pub desconto_sugerido: Decimal,
 }
 
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
 pub struct RegraItemPedido {
     pub regra_id: u32,
     pub item_id: u32,

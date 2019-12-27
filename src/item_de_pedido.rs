@@ -2,7 +2,7 @@ use crate::politica::RegraItemPedido;
 use rust_decimal::Decimal;
 use rust_decimal_macros::*;
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct ItemDePedido {
     pub id: u32,
     pub pedido_id: u32,
