@@ -1,10 +1,11 @@
 use crate::politica::{Politica};
 use crate::pedido::Pedido;
-//use std::collections::HashMap;
-//use rust_decimal::Decimal;
+use std::collections::HashMap;
+use rust_decimal::Decimal;
 use crate::item_de_pedido::ItemDePedido;
 
 pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido {
+    let descontos_antigos = obter_descontos_de_politicas(pedido);
     let novo_pedido = clonar_pedido_sem_politicas(pedido);
 
     if politicas.is_empty() {
@@ -16,29 +17,28 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
 
 fn clonar_pedido_sem_politicas(pedido: &Pedido) -> Pedido {
     Pedido {
-        itens: pedido.itens.iter().map(remove_politicas).collect(),
+        itens: pedido.itens.iter().map(clonar_item_sem_politicas).collect(),
         ..pedido.clone()
     }
 }
 
-fn remove_politicas(item: &ItemDePedido) -> ItemDePedido {
+fn clonar_item_sem_politicas(item: &ItemDePedido) -> ItemDePedido {
     ItemDePedido {
         politicas: vec![],
         ..item.clone()
     }
 }
 
-//fn remover_descontos_de_politicas_existentes(pedido: &mut Pedido) -> HashMap<(u32, u32), Decimal> {
-//    let mut descontos_antigos: HashMap<(u32, u32), Decimal> = HashMap::new();
-//
-//    for mut item in pedido.itens {
-//        for regra_item_pedido in item.politicas {
-//            descontos_antigos.insert((regra_item_pedido.regra_id, regra_item_pedido.item_id), regra_item_pedido.desconto);
-//        }
-//        item.politicas = Vec::new()
-//    }
-//    descontos_antigos
-//}
+fn obter_descontos_de_politicas(pedido: &Pedido) -> HashMap<(u32, u32), Decimal> {
+    let mut descontos_antigos: HashMap<(u32, u32), Decimal> = HashMap::new();
+
+    for item in pedido.itens.iter() {
+        for regra_item_pedido in item.politicas.iter() {
+            descontos_antigos.insert((regra_item_pedido.regra_id, regra_item_pedido.item_id), regra_item_pedido.desconto);
+        }
+    }
+    descontos_antigos
+}
 
 #[cfg(test)]
 mod test {
