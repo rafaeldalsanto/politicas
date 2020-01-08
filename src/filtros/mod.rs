@@ -1,7 +1,7 @@
-mod efiltro;
-mod intervalo;
-mod produto;
-mod valor_do_pedido;
+pub mod efiltro;
+pub mod intervalo;
+pub mod produto;
+pub mod valor_do_pedido;
 
 use crate::pedido::Pedido;
 use std::fmt::{Debug, Formatter, Result};

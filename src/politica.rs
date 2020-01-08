@@ -3,12 +3,14 @@ use rust_decimal::Decimal;
 
 #[derive(Clone, Debug, Default)]
 pub struct Politica {
+    pub id: u32,
     pub nome: String,
     pub regras: Vec<Regra>,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct Regra {
+    pub id: u32,
     pub editavel: bool,
     pub aplicavel_a_promocoes: bool,
     pub filtro: Box<dyn Filtro>,
