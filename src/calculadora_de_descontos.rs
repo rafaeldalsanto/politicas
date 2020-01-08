@@ -18,10 +18,11 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
             let mut descontos: Vec<RegraItemPedido> = vec![];
             for regra in politica.regras.iter() {
                 if regra.filtro.avaliar(indice, &novo_pedido) {
+
                     descontos.push(RegraItemPedido {
                         regra_id: regra.id,
                         item_id: item.id,
-                        desconto: regra.desconto_sugerido
+                        desconto: get_or_default(&descontos_antigos, &(regra.id, item.id), regra.desconto_sugerido)
                     });
                 }
             }
@@ -34,6 +35,13 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
     }
 
     novo_pedido
+}
+
+fn get_or_default(hm: &HashMap<(u32, u32), Decimal>, key: &(u32, u32), default: Decimal) -> Decimal {
+    match hm.get(key) {
+        Some(v) => v.clone(),
+        None => default.clone()
+    }
 }
 
 fn clonar_pedido_sem_politicas(pedido: &Pedido) -> Pedido {
@@ -143,5 +151,41 @@ mod test {
         let pedido_com_descontos = processar_politicas(&vec![politica], &pedido_original);
 
         assert_eq!(pedido_com_descontos.total(), dec!(90));
+    }
+
+    #[test]
+    fn mantem_o_desconto_dado_pelo_vendedor_se_o_item_ganhar_a_mesma_regra() {
+        let intervalo = Intervalo { minimo: Some(dec!(0)), maximo: Some(dec!(1000)) };
+        let filtro = ValorDoPedido { intervalo };
+        let politica = Politica {
+            regras: vec![Regra {
+                id: 2,
+                filtro: Box::new(filtro),
+                desconto_maximo: dec!(10),
+                desconto_sugerido: dec!(10),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let pedido_original = Pedido {
+            itens: vec![
+                ItemDePedido {
+                    id: 1,
+                    quantidade: dec!(1),
+                    preco_de_tabela: dec!(100),
+                    politicas: vec![RegraItemPedido {
+                        regra_id: politica.regras[0].id,
+                        item_id: 1,
+                        desconto: dec!(5)
+                    }],
+                    ..Default::default()
+                }
+            ]
+        };
+
+        let pedido_com_descontos = processar_politicas(&vec![politica], &pedido_original);
+
+        assert_eq!(pedido_com_descontos.total(), dec!(95));
     }
 }
