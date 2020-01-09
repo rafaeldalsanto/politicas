@@ -18,15 +18,16 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
         for (indice, item) in novo_pedido.itens.iter().enumerate() {
             let mut descontos: Vec<RegraItemPedido> = vec![];
             for regra in politica.regras.iter() {
-                if regra.filtro.avaliar(indice, &novo_pedido) {
-
-                    descontos.push(RegraItemPedido {
-                        regra_id: regra.id,
-                        item_id: item.id,
-                        desconto: descontos_antigos
-                            .get(&(regra.id, item.id))
-                            .map_or(regra.desconto_sugerido, |d| *d)
-                    });
+                if regra.aplicavel_a_promocoes || !item.possui_promocoes() {
+                    if regra.filtro.avaliar(indice, &novo_pedido) {
+                        descontos.push(RegraItemPedido {
+                            regra_id: regra.id,
+                            item_id: item.id,
+                            desconto: descontos_antigos
+                                .get(&(regra.id, item.id))
+                                .map_or(regra.desconto_sugerido, |d| *d)
+                        });
+                    }
                 }
             }
             novos_descontos.insert(item.id, descontos);
@@ -183,5 +184,42 @@ mod test {
         let pedido_com_descontos = processar_politicas(&vec![politica], &pedido_original);
 
         assert_eq!(pedido_com_descontos.total(), dec!(95));
+    }
+
+        #[test]
+    fn nao_aplica_desconto_de_politica_se_a_regra_nao_aceita_promocoes_e_o_item_aceita_promocao() {
+        let intervalo = Intervalo { minimo: Some(dec!(0)), maximo: Some(dec!(1000)) };
+        let filtro = ValorDoPedido { intervalo };
+        let politica = Politica {
+            regras: vec![Regra {
+                id: 2,
+                filtro: Box::new(filtro),
+                desconto_maximo: dec!(10),
+                desconto_sugerido: dec!(10),
+                aplicavel_a_promocoes: false,
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let pedido_original = Pedido {
+            itens: vec![
+                ItemDePedido {
+                    id: 1,
+                    quantidade: dec!(1),
+                    preco_de_tabela: dec!(100),
+                    promocoes: vec![RegraItemPedido {
+                        regra_id: 999,
+                        item_id: 1,
+                        desconto: dec!(5)
+                    }],
+                    ..Default::default()
+                }
+            ]
+        };
+
+        let pedido_com_descontos = processar_politicas(&vec![politica], &pedido_original);
+
+        assert_eq!(pedido_com_descontos.total(), pedido_original.total());
     }
 }

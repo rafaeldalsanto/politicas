@@ -33,6 +33,10 @@ impl ItemDePedido {
     pub fn total(&self) -> Decimal {
         self.quantidade * self.preco_liquido()
     }
+
+    pub fn possui_promocoes(&self) -> bool {
+        !self.promocoes.is_empty()
+    }
 }
 
 fn aplicar_descontos(valor: Decimal, descontos: &Vec<Decimal>) -> Decimal {
