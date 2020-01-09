@@ -9,6 +9,7 @@ pub struct ItemDePedido {
     pub produto_id: u32,
     pub quantidade: Decimal,
     pub preco_de_tabela: Decimal,
+    pub preco_liquido_manual: Option<Decimal>,
     pub descontos_do_vendedor: Vec<Decimal>,
     pub promocoes: Vec<RegraItemPedido>,
     pub politicas: Vec<RegraItemPedido>,
@@ -24,10 +25,15 @@ impl ItemDePedido {
     }
 
     pub fn preco_liquido(&self) -> Decimal {
-        let mut descontos = self.descontos_do_vendedor.clone();
-        descontos.extend(self.descontos_de_promocoes());
-        descontos.extend(self.descontos_de_politicas());
-        aplicar_descontos(self.preco_de_tabela, &descontos)
+        match self.preco_liquido_manual {
+            Some(p) => p,
+            None => {
+                let mut descontos = self.descontos_do_vendedor.clone();
+                descontos.extend(self.descontos_de_promocoes());
+                descontos.extend(self.descontos_de_politicas());
+                aplicar_descontos(self.preco_de_tabela, &descontos)
+            }
+        }
     }
 
     pub fn total(&self) -> Decimal {
@@ -36,6 +42,10 @@ impl ItemDePedido {
 
     pub fn possui_promocoes(&self) -> bool {
         !self.promocoes.is_empty()
+    }
+
+    pub fn teve_preco_alterado_manualmente(&self) -> bool {
+        self.preco_liquido_manual.is_some()
     }
 }
 
@@ -123,5 +133,18 @@ mod tests {
         };
 
         assert_eq!(item.descontos_de_politicas(), vec![dec!(5.5), dec!(10)]);
+    }
+
+    #[test]
+    fn prioriza_preco_liquido_manual_quando_existir() {
+        let preco_liquido_manual = dec!(80);
+        let item = ItemDePedido {
+            preco_de_tabela: dec!(100),
+            preco_liquido_manual: Some(preco_liquido_manual),
+            descontos_do_vendedor: vec![dec!(10)],
+            ..Default::default()
+        };
+
+        assert_eq!(item.preco_liquido(), preco_liquido_manual);
     }
 }
