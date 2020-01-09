@@ -3,6 +3,7 @@ use crate::pedido::Pedido;
 use std::collections::HashMap;
 use rust_decimal::Decimal;
 use crate::item_de_pedido::ItemDePedido;
+use std::hash::Hash;
 
 pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido {
     let descontos_antigos = obter_descontos_de_politicas(pedido);
@@ -22,7 +23,9 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
                     descontos.push(RegraItemPedido {
                         regra_id: regra.id,
                         item_id: item.id,
-                        desconto: get_or_default(&descontos_antigos, &(regra.id, item.id), regra.desconto_sugerido)
+                        desconto: descontos_antigos
+                            .get(&(regra.id, item.id))
+                            .map_or(regra.desconto_sugerido, |d| *d)
                     });
                 }
             }
@@ -35,13 +38,6 @@ pub fn processar_politicas(politicas: &Vec<Politica>, pedido: &Pedido) -> Pedido
     }
 
     novo_pedido
-}
-
-fn get_or_default(hm: &HashMap<(u32, u32), Decimal>, key: &(u32, u32), default: Decimal) -> Decimal {
-    match hm.get(key) {
-        Some(v) => v.clone(),
-        None => default.clone()
-    }
 }
 
 fn clonar_pedido_sem_politicas(pedido: &Pedido) -> Pedido {
